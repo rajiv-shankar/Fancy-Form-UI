@@ -4,7 +4,7 @@ const questions = [
   { question: "Enter Your First Name" },
   { question: "Enter Your Last Name" },
   { question: "Enter Your Email", pattern: /\S+@\S+\.\S+/ }, // regex for: anystring@anystring.anystring
-  { question: "Create a Password", type: "password" }
+  { question: "Create A Password", type: "password" }
 ];
 
 // Transition Times
@@ -29,6 +29,7 @@ const progress = document.querySelector("#progress-bar");
 
 // EVENTS
 
+// Get Question On DOM Load
 document.addEventListener("DOMContentLoaded", getQuestion);
 
 // FUNCTIONS
@@ -57,5 +58,5 @@ function getQuestion() {
 function showQuestion() {
   inputGroup.style.opacity = 1;
   inputProgress.style.transition = "";
-  inputProgress.style.width = 100%;
+  inputProgress.style.width = "100%";
 }

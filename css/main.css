@@ -29,7 +29,7 @@ h1.logo {
   width: 0;
   padding: 0;
   overflow: hidden;
-  transition: transform 0.8s ease-in-out;
+  transition: 0.8s ease-in-out;
   box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0); }
 
 #next-btn {
@@ -78,7 +78,7 @@ h1.logo {
     left: 20px;
     font-size: 20px;
     font-weight: bold;
-    transition: opacity 0.2s ease-in-out; }
+    transition: 0.2s ease-in-out; }
   #input-group input:valid + #input-label {
     top: 6px;
     left: 42px;
@@ -98,6 +98,10 @@ h1.logo {
   height: 10px;
   width: 0;
   transition: width 0.5s ease-in-out; }
+
+.close #next-btn,
+.close #prev-btn {
+  color: #fff; }
 
 .error #input-progress {
   border-color: #ff2d26; }

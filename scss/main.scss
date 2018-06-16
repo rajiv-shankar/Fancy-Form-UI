@@ -43,7 +43,7 @@ h1.logo {
   width: 0;
   padding: 0;
   overflow: hidden;
-  transition: transform 0.8s ease-in-out;
+  transition: 0.8s ease-in-out;
   box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0);
 }
 
@@ -102,7 +102,7 @@ h1.logo {
       left: 20px;
       font-size: 20px;
       font-weight: bold;
-      transition: opacity 0.2s ease-in-out;
+      transition: 0.2s ease-in-out;
     }
 
     input:valid + #input-label {
@@ -129,6 +129,13 @@ h1.logo {
   transition: width 0.5s ease-in-out;
 }
 
+.close {
+  #next-btn,
+  #prev-btn {
+    color: #fff;
+  }
+}
+
 .error {
   #input-progress {
     border-color: $error;
@@ -139,7 +146,7 @@ h1.logo {
   }
 }
 
-@media(max-width: 600px) {
+@media (max-width: 600px) {
   #form-box {
     width: 80%;
   }
