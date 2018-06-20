@@ -1,22 +1,22 @@
-// Questions Array
+// Questions array
 
 const questions = [
   { question: "Enter Your First Name" },
   { question: "Enter Your Last Name" },
-  { question: "Enter Your Email", pattern: /\S+@\S+\.\S+/ }, // regex for: anystring@anystring.anystring
+  { question: "Enter Your Email", pattern: /\S+@\S+\.\S+/ }, // regex for: string@string.string
   { question: "Create A Password", type: "password" }
 ];
 
-// Transition Times
+// Transition times
 
 const shakeTime = 100;  // shake transition time
 const switchTime = 200;  // transition between questions time
 
-// Init Position at First Question
+// Init position at first question
 
 let position = 0;
 
-// Init DOM Elements
+// Init DOM elements
 
 const formBox = document.querySelector("#form-box");
 const nextBtn = document.querySelector("#next-btn");
@@ -29,26 +29,36 @@ const progress = document.querySelector("#progress-bar");
 
 // EVENTS
 
-// Get Question On DOM Load
+// Get question on DOM load
 document.addEventListener("DOMContentLoaded", getQuestion);
+
+// Next button click
+nextBtn.addEventListener("click", validate)
+
+// Input field enter click
+inputField.addEventListener("keyup", e => {
+  if(e.keyCode == 13) {
+    validate();
+  }
+})
 
 // FUNCTIONS
 
-// get question from array and add to markup
+// Get question from array and add to markup
 function getQuestion() {
-  //  get current question
+  // Get current question
   inputLabel.innerHTML = questions[position].question;
-  // get current type
+  // Get current type
   inputField.type = questions[position].type || "text";
-  // get current answer
+  // Get current answer
   inputField.value = questions[position].answer || "";
-  // focus on element
+  // Focus on element
   inputField.focus();
 
-  // set focus bar width - var to the questions array length
+  // Set focus bar width - var to the questions array length
   progress.style.width = (position * 100) / questions.length + "%";
 
-  // add user icon OR back arrow depending on question
+  // Add user icon OR back arrow depending on question
   prevBtn.className = position ? "fas fa-arrow-left" : "fas fa-user";
 
   showQuestion();
@@ -59,4 +69,80 @@ function showQuestion() {
   inputGroup.style.opacity = 1;
   inputProgress.style.transition = "";
   inputProgress.style.width = "100%";
+}
+
+// Hide question from user
+function hideQuestion() {
+  inputGroup.style.opacity = 0;
+  inputGroup.style.border = null;
+  inputLabel.style.marginLeft = 0;
+  inputProgress.style.width = 0;
+  inputProgress.style.transition = "none";
+
+}
+
+// Transform to create shake motion
+function transform(x, y) {
+  formBox.style.transform = `translate(${x}px, ${y}px)`;
+}
+
+// Validate field
+function validate() {
+  // Make sure pattern matches if there is one
+  if(!inputField.value.match(questions[position].pattern || /.+/)) {
+    inputFail();
+  } else {
+    inputPass();
+  }
+}
+
+// Field input failed
+function inputFail() {
+  formBox.className = "error";
+  // Repeat shake motion - set i to number of shakes
+  for(let i = 0; i < 6; i++) {  // 6/2 = 3: number of shakes
+    setTimeout(transform, shakeTime * i, ((i % 2) * 2 - 1) * 20, 0);
+    setTimeout(transform, shakeTime * 6, 0, 0);
+  }
+}
+
+// Field input passed
+function inputPass() {
+  formBox.className = "";
+  setTimeout(transform, shakeTime * 0, 0, 10);
+  setTimeout(transform, shakeTime * 1, 0, 0);
+
+  // Store answer in array
+  questions[position].answer = inputField.value;
+
+  // Increment position
+  position++;
+
+// If new question, then hide current and get next
+  if(questions[position]) {
+    hideQuestion();
+    getQuestion();
+  } else {
+    // Remove if no more questions
+    hideQuestion();
+    formBox.className = "close";
+    progress.style.width = "100%";
+
+    // Form complete
+    formComplete();
+  }
+}
+
+// All fields complete - show h1 end
+function formComplete() {
+  console.log(questions);
+  const h1 = document.createElement("h1");
+  h1.classList.add("end");
+  h1.appendChild(document.createTextNode(
+    `Thanks, ${ questions[0].answer }! You are registered and will get an email shortly.`
+  ));
+  setTimeout(() => {
+    formBox.parentElement.appendChild(h1);
+    setTimeout(() => h1.style.opacity = 1, 50);
+  }, 1000)
 }
